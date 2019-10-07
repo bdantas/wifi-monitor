@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# wifi-monitor v5.1
+# wifi-monitor v5.2
 # Bruno "GNUser" Dantas GPLv3
 
 # user variables:
@@ -24,9 +24,8 @@ main()
 icon_add()
 {
 	if [ "$canvas" = "systray" ]; then
-		[ -e $yad_pid_file ] && return
+		pgrep -f "yad.*${icon}" >/dev/null && return
 		yad --notification --image="$icon" --icon-size=24 --text="$ssid" --command=true &
-		echo $! > $yad_pid_file
 	elif [ "$canvas" = "wbar" ]; then
 		grep -q "$icon" "$wbar_config_file" && return
 		printf "i: $icon\nt: $ssid\nc: true\n" >> $wbar_config_file
@@ -37,8 +36,8 @@ icon_add()
 icon_remove()
 {
 	if [ "$canvas" = "systray" ]; then
-		[ -e $yad_pid_file ] || return
-		kill $(cat $yad_pid_file) && rm $yad_pid_file
+		pgrep -f "yad.*${icon}" >/dev/null || return
+		pkill -f "yad.*${icon}"
 	elif [ "$canvas" = "wbar" ]; then
 		grep -q "$icon" "$wbar_config_file" || return
 		sed -i "\|$icon|,+2 d" $wbar_config_file
@@ -48,6 +47,5 @@ icon_remove()
 
 # internal variables:
 wbar_config_file=$HOME/.wbar
-yad_pid_file=/tmp/$(basename $0)-yad-pid-file
 
 main
