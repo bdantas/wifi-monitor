@@ -18,4 +18,4 @@ The only adaptations you need to make (to the top of the script) are:
 - Required (for system tray icon only): **yad**
 
 # Want to ditch your bloated network manager?
-Check out my *autowifi*
+Check out https://github.com/bdantas/autowifi
