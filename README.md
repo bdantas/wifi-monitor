@@ -17,5 +17,5 @@ The only adaptations you need to make (to the top of the script) are:
 - Required for all: **curl** and **wireless-tools** (provides iwconfig)
 - Required (for system tray icon only): **yad**
 
-# Want to replace your bloated network manager?
-This script works nicely in combination with my *autowifi*
+# Want to ditch your bloated network manager?
+Check out my *autowifi*
