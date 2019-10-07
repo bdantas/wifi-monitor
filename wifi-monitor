@@ -6,7 +6,7 @@
 # user variables:
 iface=wlan0
 icon=/path/to/wifi.png
-canvas=systray # options are systray or wbar
+canvas=systray # choose either systray (most users) or wbar
 
 main()
 {
