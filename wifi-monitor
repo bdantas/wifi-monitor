@@ -11,7 +11,7 @@ canvas=systray # choose either systray (most users) or wbar
 main()
 {
 	while true; do
-		if curl --silent --max-time 5 --head http://duckduckgo.com >/dev/null; then
+		if curl --silent --max-time 10 --head http://duckduckgo.com >/dev/null; then
 			ssid="$(iwconfig $iface | grep ESSID | awk -F\" '{print $2}')"; text="$ssid"
 			icon_add
 		else
