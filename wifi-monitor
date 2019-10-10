@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# wifi-monitor v5.2
+# wifi-monitor v5.3
 # Bruno "GNUser" Dantas GPLv3
 
 # user variables:
@@ -12,35 +12,35 @@ main()
 {
 	while true; do
 		if curl --silent --max-time 10 --head http://duckduckgo.com >/dev/null; then
-			ssid="$(iwconfig $iface | grep ESSID | awk -F\" '{print $2}')"; text="$ssid"
-			icon_add
+			ssid="$(iwconfig $iface | grep ESSID | awk -F\" '{print $2}')"
+			icon_add $canvas "$icon" "$ssid"
 		else
-			icon_remove
+			icon_remove $canvas "$icon"
 		fi
 		sleep 10
 	done
 }
 
-icon_add()
+icon_add() # takes 3 args: canvas ("systray" or "wbar"), icon (absolute path) and text (string)
 {
-	if [ "$canvas" = "systray" ]; then
-		pgrep -f "yad.*${icon}" >/dev/null && return
-		yad --notification --image="$icon" --icon-size=24 --text="$text" --command=true &
-	elif [ "$canvas" = "wbar" ]; then
-		grep -q "$icon" "$wbar_config_file" && return
-		printf "i: $icon\nt: $text\nc: true\n" >> $wbar_config_file
+	if [ "$1" = "systray" ]; then
+		pgrep -f "yad.*$2" >/dev/null && return
+		yad --notification --image="$2" --icon-size=24 --text="$3" --command=true &
+	elif [ "$1" = "wbar" ]; then
+		grep -q "$2" "$wbar_config_file" && return
+		printf "i: $2\nt: $3\nc: true\n" >> $wbar_config_file
 		pkill wbar && wbar >/dev/null 2>&1 &
 	fi
 }
 
-icon_remove()
+icon_remove() # takes 2 args: canvas ("systray" or "wbar") and icon (absolute path)
 {
-	if [ "$canvas" = "systray" ]; then
-		pgrep -f "yad.*${icon}" >/dev/null || return
-		pkill -f "yad.*${icon}"
-	elif [ "$canvas" = "wbar" ]; then
-		grep -q "$icon" "$wbar_config_file" || return
-		sed -i "\|$icon|,+2 d" $wbar_config_file
+	if [ "$1" = "systray" ]; then
+		pgrep -f "yad.*$2" >/dev/null || return
+		pkill -f "yad.*$2"
+	elif [ "$1" = "wbar" ]; then
+		grep -q "$2" "$wbar_config_file" || return
+		sed -i "\|$2|,+2 d" $wbar_config_file
 		pkill wbar && wbar >/dev/null 2>&1 &
 	fi
 }
