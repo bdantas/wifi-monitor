@@ -21,7 +21,7 @@ main()
 	done
 }
 
-icon_add() # takes 3 args: canvas ("systray" or "wbar"), icon (absolute path) and text (string)
+icon_add() # takes 3 args: canvas ("systray" or "wbar"), icon (absolute path) and tooltip (string)
 {
 	if [ "$1" = "systray" ]; then
 		pgrep -f "yad.*$2" >/dev/null && return
