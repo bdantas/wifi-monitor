@@ -1,51 +1,35 @@
 #!/bin/sh
 
-# wifi-monitor v5.3
+# wifi-monitor v7.0
 # Bruno "GNUser" Dantas GPLv3
 
 # user variables:
 iface=wlan0
-icon=/path/to/wifi.png
-canvas=systray # choose either systray (most users) or wbar
+icon=/opt/scripts/media/wifi.png
 
 main()
 {
 	while true; do
 		if curl --silent --max-time 10 --head http://duckduckgo.com >/dev/null; then
 			ssid="$(iwconfig $iface | grep ESSID | awk -F\" '{print $2}')"
-			icon_add $canvas "$icon" "$ssid"
+			icon_add "$icon" "$ssid"
 		else
-			icon_remove $canvas "$icon"
+			icon_remove "$icon"
 		fi
 		sleep 10
 	done
 }
 
-icon_add() # takes 3 args: canvas ("systray" or "wbar"), icon (absolute path) and tooltip (string)
+icon_add()
 {
-	if [ "$1" = "systray" ]; then
-		pgrep -f "yad.*$2" >/dev/null && return
-		yad --notification --image="$2" --icon-size=24 --text="$3" --command=true &
-	elif [ "$1" = "wbar" ]; then
-		grep -q "$2" "$wbar_config_file" && return
-		printf "i: $2\nt: $3\nc: true\n" >> $wbar_config_file
-		pkill wbar && wbar >/dev/null 2>&1 &
-	fi
+	pgrep -f "mktrayicon.*$1" >/dev/null && return
+	mktrayicon -i "$1" -t "$2" &
 }
 
-icon_remove() # takes 2 args: canvas ("systray" or "wbar") and icon (absolute path)
+icon_remove()
 {
-	if [ "$1" = "systray" ]; then
-		pgrep -f "yad.*$2" >/dev/null || return
-		pkill -f "yad.*$2"
-	elif [ "$1" = "wbar" ]; then
-		grep -q "$2" "$wbar_config_file" || return
-		sed -i "\|$2|,+2 d" $wbar_config_file
-		pkill wbar && wbar >/dev/null 2>&1 &
-	fi
+	pgrep -f "mktrayicon.*$1" >/dev/null || return
+	pkill -f "mktrayicon.*$1"
 }
-
-# internal variables:
-wbar_config_file=$HOME/.wbar
 
 main
