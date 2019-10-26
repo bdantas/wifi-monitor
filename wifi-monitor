@@ -22,14 +22,20 @@ main()
 
 icon_add()
 {
-	pgrep -f "mktrayicon.*$1" >/dev/null && return
-	mktrayicon -i "$1" -t "$2" &
+	if pgrep -f "mktrayicon.*$1" >/dev/null; then
+		return
+	else
+		mktrayicon -i "$1" -t "$2" &
+	fi
 }
 
 icon_remove()
 {
-	pgrep -f "mktrayicon.*$1" >/dev/null || return
-	pkill -f "mktrayicon.*$1"
+	if pgrep -f "mktrayicon.*$1" >/dev/null; then
+		pkill -f "mktrayicon.*$1"
+	else
+		return
+	fi
 }
 
 main
