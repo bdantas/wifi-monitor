@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# wifi-monitor v7.0
+# wifi-monitor v7.1
 # Bruno "GNUser" Dantas GPLv3
 
 # user variables:
@@ -10,7 +10,7 @@ icon=/opt/scripts/media/wifi.png
 main()
 {
 	while true; do
-		if curl --silent --max-time 10 --head http://duckduckgo.com >/dev/null; then
+		if nc -z -w 10 duckduckgo.com 443 >/dev/null 2>&1; then
 			ssid="$(iwconfig $iface | grep ESSID | awk -F\" '{print $2}')"
 			icon_add "$icon" "$ssid"
 		else
