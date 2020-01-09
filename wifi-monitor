@@ -5,7 +5,7 @@
 
 # user variables:
 iface=wlan0
-icon=/opt/scripts/media/wifi.png
+icon=/usr/share/icons/wifi.png
 
 main()
 {
