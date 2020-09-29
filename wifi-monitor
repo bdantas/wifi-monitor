@@ -5,7 +5,7 @@
 
 # user variables:
 iface=wlan0
-icon=/usr/local/share/icons/wifi.png
+icon=/usr/share/icons/wifi.png
 icon_method=mktrayicon # choose one: mktrayicon, yad, or wbar
 
 main()
