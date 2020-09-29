@@ -13,9 +13,9 @@ Show wifi icon in system tray while connected; hover over icon for current SSID
 5. Any panel with a system tray
 6. Check "user variables" at top of script for correctness
 
-# Installation
+# Example installation
 ```
-$ sudo apt install wireless-tools netcat libgtk-3-0
+$ sudo apt install wireless-tools netcat yad
 $ cd /tmp
 $ wget https://github.com/bdantas/wifi-monitor/archive/master.zip
 $ unzip master.zip
