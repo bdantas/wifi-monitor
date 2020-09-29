@@ -21,8 +21,8 @@ $ wget https://github.com/bdantas/wifi-monitor/archive/master.zip
 $ unzip master.zip
 $ sudo cp ./wifi-monitor-master/wifi-monitor /usr/local/bin/
 $ sudo chmod a+x /usr/local/bin/wifi-monitor
-$ sudo mkdir -p /usr/share/icons
-$ sudo cp ./wifi-monitor-master/wifi.png /usr/share/icons/
+$ sudo mkdir -p /usr/local/share/icons
+$ sudo cp ./wifi-monitor-master/wifi.png /usr/local/share/icons/
 ```
 Note: If your operating system is not Debian-like, adjust the first step
 
