@@ -20,8 +20,7 @@ $ cd /tmp
 $ wget https://github.com/bdantas/wifi-monitor/archive/master.zip
 $ unzip master.zip
 $ sudo cp ./wifi-monitor-master/wifi-monitor /usr/local/bin/
-$ sudo cp ./wifi-monitor-master/mktrayicon /usr/local/bin/
-$ sudo chmod a+x /usr/local/bin/wifi-monitor /usr/local/bin/mktrayicon
+$ sudo chmod a+x /usr/local/bin/wifi-monitor
 $ sudo mkdir -p /usr/share/icons
 $ sudo cp ./wifi-monitor-master/wifi.png /usr/share/icons/
 ```
