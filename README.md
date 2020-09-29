@@ -8,9 +8,10 @@ Show wifi icon in system tray while connected; hover over icon for current SSID
 0. GNU/Linux operating system and this script
 1. Suitable icon (provided)
 2. **iwconfig** (usually part of *wireless-tools* package) and **netcat**
-3. **mktrayicon** utility somewhere in your PATH (x86_64 binary provided; source code [here](https://github.com/jonhoo/mktrayicon))
-4. mktrayicon needs **gtk3** and any panel with a system tray
-5. Check "user variables" at top of script for correctness
+3. **mktrayicon** (x86_64 binary provided; source code [here](https://github.com/jonhoo/mktrayicon)) *or* **yad** *or* **wbar**
+4. if you use mktrayicon or yad, you need **gtk3**
+5. any panel with a system tray
+6. Check "user variables" at top of script for correctness
 
 # Installation
 ```
