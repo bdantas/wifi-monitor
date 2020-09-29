@@ -1,11 +1,12 @@
 #!/bin/sh
 
-# wifi-monitor v7.2
+# wifi-monitor v8.0
 # Bruno "GNUser" Dantas GPLv3
 
 # user variables:
 iface=wlan0
-icon=/usr/share/icons/wifi.png
+icon=/usr/local/share/icons/wifi.png
+icon_method=mktrayicon # choose one: mktrayicon, yad, or wbar
 
 main()
 {
@@ -20,21 +21,33 @@ main()
 	done
 }
 
-icon_add()
+icon_add() # takes 2 args: icon absolute path, string
 {
-	if pgrep -f "mktrayicon.*$1" >/dev/null; then
-		return
-	else
+	if [ "$icon_method" = "mktrayicon" ]; then
+		pgrep -f "mktrayicon.*$1" >/dev/null && return
 		mktrayicon -i "$1" -t "$2" &
+	elif [ "$icon_method" = "yad" ]; then
+		pgrep -f "yad.*$1" >/dev/null && return
+		yad --notification --image="$1" --icon-size=24 --text="$2" --command=true &
+	elif [ "$icon_method" = "wbar" ]; then
+		grep -q "$1" $HOME/.wbar && return
+		printf "i: $1\nt: $2\nc: true\n" >> $HOME/.wbar
+		pkill wbar && wbar >/dev/null 2>&1 &
 	fi
 }
 
-icon_remove()
+icon_remove() # takes 1 arg: icon absolute path
 {
-	if pgrep -f "mktrayicon.*$1" >/dev/null; then
+	if [ "$icon_method" = "mktrayicon" ]; then
+		pgrep -f "mktrayicon.*$1" >/dev/null || return
 		pkill -f "mktrayicon.*$1"
-	else
-		return
+	elif [ "$icon_method" = "yad" ]; then
+		pgrep -f "yad.*$1" >/dev/null || return
+		pkill -f "yad.*$1"
+	elif [ "$icon_method" = "wbar" ]; then
+		grep -q "$1" $HOME/.wbar || return
+		sed -i "\|$1|,+2 d" $HOME/.wbar
+		pkill wbar && wbar >/dev/null 2>&1 &
 	fi
 }
 
